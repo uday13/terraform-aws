@@ -9,7 +9,7 @@ provider "aws" {
 }
 
 data "aws_subnet" "az_a" {
-  id = "${var.subnet_vpc_appliance_mgmt["us-east-1a"]}"
+  id = "${var.subnet_vpc_mgmt["us-east-1a"]}"
 }
 
 
