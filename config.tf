@@ -40,28 +40,6 @@ resource "aws_sns_topic_subscription" "test_sqs_target" {
 }
   
 # 3. create conditional ec2 instances
-resource "aws_instance" "instance_us-east-1" {
-  region = var.aws_ec2_region ? 1 : 0
-  
-  subnet_id              = "${data.aws_subnet.az_a.id}"
-  ami                    = "${var.ami_us-east["oel-7.9_2021_06"]}"
-  key_name               = "${var.key_name}"
-  tag_environment        = "${var.tag_environment}"
-  user_data              = "${var.user_data}"
-  instance_key_file      = "${var.instance_key_file}"
-  private_ip             = ""
-}
-  
-resource "aws_instance" "instance_eu-central-1" {
-  region = var.aws_ec2_region ? 0 : 1
-  
-  subnet_id              = "${data.aws_subnet.az_a.id}"
-  ami                    = "${var.ami_eu-central["oel-7.9_2021_06"]}"
-  key_name               = "${var.key_name}"
-  tag_environment        = "${var.tag_environment}"
-  user_data              = "${var.user_data}"
-  instance_key_file      = "${var.instance_key_file}"
-  private_ip             = ""
-}
+
   
   
