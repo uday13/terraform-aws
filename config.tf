@@ -14,7 +14,6 @@ data "aws_subnet" "az_a" {
 
 # 1. creating test instance 
 module "test-instance" {
-  source = 
   subnet_id              = "${data.aws_subnet.az_a.id}"
   ami                    = "${var.ami_us-east["oel-7.9_2021_06"]}"
   key_name               = "${var.key_name}"
@@ -40,25 +39,29 @@ resource "aws_sns_topic_subscription" "test_sqs_target" {
   endpoint  = aws_sqs_queue.test_queue.arn
 }
   
-# 3. create conditional ece instances
+# 3. create conditional ec2 instances
 resource "aws_instance" "instance_us-east-1" {
-  count = var.aws_region ? 1 : 0
-  scheduled_action_name  = "scale-out-during-business-hours"
-  min_size               = 2
-  max_size               = 10
-  desired_capacity       = 10
-  recurrence             = "0 9 * * *"
-  autoscaling_group_name = aws_autoscaling_group.example.name
+  region = var.aws_ec2_region ? 1 : 0
+  
+  subnet_id              = "${data.aws_subnet.az_a.id}"
+  ami                    = "${var.ami_us-east["oel-7.9_2021_06"]}"
+  key_name               = "${var.key_name}"
+  tag_environment        = "${var.tag_environment}"
+  user_data              = "${var.user_data}"
+  instance_key_file      = "${var.instance_key_file}"
+  private_ip             = ""
 }
   
-resource "aws_autoscaling_schedule" "scale_in_at_night" {
-  count = var.enable_autoscaling ? 1 : 0
-  scheduled_action_name  = "scale-in-at-night"
-  min_size               = 2
-  max_size               = 10
-  desired_capacity       = 2
-  recurrence             = "0 17 * * *"
-  autoscaling_group_name = aws_autoscaling_group.example.name
+resource "aws_instance" "instance_eu-central-1" {
+  region = var.aws_ec2_region ? 0 : 1
+  
+  subnet_id              = "${data.aws_subnet.az_a.id}"
+  ami                    = "${var.ami_eu-central["oel-7.9_2021_06"]}"
+  key_name               = "${var.key_name}"
+  tag_environment        = "${var.tag_environment}"
+  user_data              = "${var.user_data}"
+  instance_key_file      = "${var.instance_key_file}"
+  private_ip             = ""
 }
   
   
