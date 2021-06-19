@@ -6,7 +6,7 @@ variable "ami_us-east" {
   type = "map"
 
   default = {
-    oel-7.9_202110 = "ami-0263b1da39775563a"
+    oel-7.9_202106 = "ami-0263b1da39775563a"
   }
 }
 
