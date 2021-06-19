@@ -1,4 +1,4 @@
-resource "aws_instance" {
+resource "aws_instance" "test" {
   # subnet ID and availability zone for our VPC
   subnet_id = "${var.subnet_id}"
 
