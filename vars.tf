@@ -17,7 +17,7 @@ variable ami {}
 variable key_name {}
 
 variable "user" {
-  default = "cloud-user"
+  default = "aws-user"
 }
 
 variable user_data {
