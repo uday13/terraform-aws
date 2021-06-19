@@ -13,7 +13,8 @@ data "aws_subnet" "az_a" {
 }
 
 
-module "bastion" {
+module "test-instance" {
+  source = 
   subnet_id              = "${data.aws_subnet.az_a.id}"
   ami                    = "${var.ami_us-east["oel-7.9_2021_06"]}"
   key_name               = "${var.key_name}"
@@ -22,4 +23,18 @@ module "bastion" {
   user_data              = "${var.user_data}"
   instance_key_file      = "${var.instance_key_file}"
   private_ip             = ""
+}
+  
+resource "aws_sns_topic" "test" {
+  name = "test-topic"
+}
+
+resource "aws_sqs_queue" "test_queue" {
+  name = "test-queue"
+}
+
+resource "aws_sns_topic_subscription" "test_sqs_target" {
+  topic_arn = aws_sns_topic.test.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.test_queue.arn
 }
