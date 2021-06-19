@@ -39,7 +39,16 @@ resource "aws_sns_topic_subscription" "test_sqs_target" {
   endpoint  = aws_sqs_queue.test_queue.arn
 }
   
-# 3. create conditional ec2 instances
-
+# 3. create conditional ec2 instances 
+ # If var.aws_ec2_region is true, the count parameter for instance_by_region resources will be set to 1, so one of each ec2 will be created per region. 
+ # If var.aws_ec2_region is false, the count parameter for instance_by_region resources will be set to 0, so neither one will be created. 
+ # This is the conditional logic per region!
   
+ module "instance_by_region" {
+  source = "../main"
+  instance_type      = "t2.micro"
+  min_size           = 2
+  max_size           = 2
+  aws_ec2_region     =   false
+}
   
