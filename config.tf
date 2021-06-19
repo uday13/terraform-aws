@@ -14,7 +14,6 @@ data "aws_subnet" "az_a" {
 
 
 module "bastion" {
-  source                 = "git::https://github.cerner.com/ETS-Bespin/gabor-terraform-modules.git?ref=master//aws/cho-appliance/aws_instance/bastion"
   subnet_id              = "${data.aws_subnet.az_a.id}"
   ami                    = "${var.ami_us-east["oel-7.9_2021_06"]}"
   key_name               = "${var.key_name}"
